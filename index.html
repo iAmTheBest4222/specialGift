@@ -151,21 +151,21 @@ body{
 
 <body>
 <div class="spiral">
-  <div class="box b1"><img src="https://picsum.photos/seed/valentine1/800/800.jpg" alt="Image 1" style="animation-delay: 0s;"></div>
-  <div class="box b2"><img src="https://picsum.photos/seed/valentine2/600/600.jpg" alt="Image 2" style="animation-delay: 0.5s;"></div>
-  <div class="box b3"><img src="https://picsum.photos/seed/valentine3/400/400.jpg" alt="Image 3" style="animation-delay: 1s;"></div>
-  <div class="box b4"><img src="https://picsum.photos/seed/valentine4/300/300.jpg" alt="Image 4" style="animation-delay: 1.5s;"></div>
-  <div class="box b5"><img src="https://picsum.photos/seed/valentine5/200/200.jpg" alt="Image 5" style="animation-delay: 2s;"></div>
-  <div class="box b6"><img src="https://picsum.photos/seed/valentine6/150/150.jpg" alt="Image 6" style="animation-delay: 2.5s;"></div>
-  <div class="box b7"><img src="https://picsum.photos/seed/valentine7/100/100.jpg" alt="Image 7" style="animation-delay: 3s;"></div>
-  <div class="box b8"><img src="https://picsum.photos/seed/valentine8/100/100.jpg" alt="Image 8" style="animation-delay: 3.5s;"></div>
+  <div class="box b1"><img src="WhatsApp Image 2026-02-06 at 4.19.30 PM (1).jpeg" alt="Image 1" data-src="WhatsApp Image 2026-02-06 at 4.19.30 PM (1).jpeg" style="animation-delay: 0s;"></div>
+  <div class="box b2"><img src="WhatsApp Image 2026-02-06 at 4.19.30 PM (2).jpeg" alt="Image 2" data-src="WhatsApp Image 2026-02-06 at 4.19.30 PM (2).jpeg" style="animation-delay: 0.5s;"></div>
+  <div class="box b3"><img src="WhatsApp Image 2026-02-06 at 4.19.30 PM (3).jpeg" alt="Image 3" data-src="WhatsApp Image 2026-02-06 at 4.19.30 PM (3).jpeg" style="animation-delay: 1s;"></div>
+  <div class="box b4"><img src="WhatsApp Image 2026-02-06 at 4.19.30 PM (4).jpeg" alt="Image 4" data-src="WhatsApp Image 2026-02-06 at 4.19.30 PM (4).jpeg" style="animation-delay: 1.5s;"></div>
+  <div class="box b5"><img src="WhatsApp Image 2026-02-06 at 4.19.30 PM (5).jpeg" alt="Image 5" data-src="WhatsApp Image 2026-02-06 at 4.19.30 PM (5).jpeg" style="animation-delay: 2s;"></div>
+  <div class="box b6"><img src="WhatsApp Image 2026-02-06 at 4.19.30 PM (6).jpeg" alt="Image 6" data-src="WhatsApp Image 2026-02-06 at 4.19.30 PM (6).jpeg" style="animation-delay: 2.5s;"></div>
+  <div class="box b7"><img src="WhatsApp Image 2026-02-06 at 4.19.30 PM (7).jpeg" alt="Image 7" data-src="WhatsApp Image 2026-02-06 at 4.19.30 PM (7).jpeg" style="animation-delay: 3s;"></div>
+  <div class="box b8"><img src="WhatsApp Image 2026-02-06 at 4.25.45 PM (1).jpeg" alt="Image 8" data-src="WhatsApp Image 2026-02-06 at 4.25.45 PM (1).jpeg" style="animation-delay: 3.5s;"></div>
   <!-- <div class="box b9"><img src="https://picsum.photos/seed/valentine9/100/100.jpg" alt="Image 9" style="animation-delay: 4s;"></div> -->
 </div>
 
-<div class="countdown" id="countdown">Redirecting in 10 seconds...</div>
+<div class="countdown" id="countdown">Redirecting in 15 seconds...</div>
 
 <script>
-let countdown = 10;
+let countdown = 15;
 const countdownEl = document.getElementById('countdown');
 
 const timer = setInterval(() => {
@@ -177,6 +177,70 @@ const timer = setInterval(() => {
     window.location.href = 'valentine.html';
   }
 }, 1000);
+
+// Image swapping animation
+const allImages = [
+  'WhatsApp Image 2026-02-06 at 4.19.30 PM (1).jpeg',
+  'WhatsApp Image 2026-02-06 at 4.19.30 PM (2).jpeg',
+  'WhatsApp Image 2026-02-06 at 4.19.30 PM (3).jpeg',
+  'WhatsApp Image 2026-02-06 at 4.19.30 PM (4).jpeg',
+  'WhatsApp Image 2026-02-06 at 4.19.30 PM (5).jpeg',
+  'WhatsApp Image 2026-02-06 at 4.19.30 PM (6).jpeg',
+  'WhatsApp Image 2026-02-06 at 4.19.30 PM (7).jpeg',
+  'WhatsApp Image 2026-02-06 at 4.25.45 PM (1).jpeg',
+  'WhatsApp Image 2026-02-06 at 4.25.45 PM (2).jpeg',
+  'WhatsApp Image 2026-02-06 at 4.25.45 PM (3).jpeg',
+  'WhatsApp Image 2026-02-06 at 4.25.45 PM (4).jpeg',
+  'WhatsApp Image 2026-02-06 at 4.25.45 PM (5).jpeg',
+  'WhatsApp Image 2026-02-06 at 4.25.45 PM (6).jpeg'
+];
+
+// Smooth blinking animation like initial fade-in
+function smoothBlinking() {
+  const imgElements = document.querySelectorAll('.box img');
+  
+  // Randomly select 2-4 images to blink
+  const numToBlink = Math.floor(Math.random() * 3) + 2; // 2-4 images
+  const indicesToBlink = [];
+  
+  // Get random unique indices
+  while (indicesToBlink.length < numToBlink) {
+    const randomIndex = Math.floor(Math.random() * imgElements.length);
+    if (!indicesToBlink.includes(randomIndex)) {
+      indicesToBlink.push(randomIndex);
+    }
+  }
+  
+  // Blink selected images one by one with smooth animation
+  indicesToBlink.forEach((index, delayIndex) => {
+    setTimeout(() => {
+      const img = imgElements[index];
+      
+      // Reset animation to fade out
+      img.style.animation = 'none';
+      img.style.opacity = '0';
+      
+      // Force reflow
+      img.offsetHeight;
+      
+      // Change to random image
+      const randomImage = allImages[Math.floor(Math.random() * allImages.length)];
+      img.src = randomImage;
+      
+      // Apply same fade-in animation as initial load
+      img.style.animation = 'fadeIn 2s ease-in-out forwards';
+      
+    }, delayIndex * 800); // 800ms delay between each blink
+  });
+}
+
+// Start blinking after initial fade-in (5 seconds)
+setTimeout(() => {
+  smoothBlinking();
+  
+  // Continue blinking every 5 seconds
+  setInterval(smoothBlinking, 5000);
+}, 5000);
 </script>
 </body>
 </html>
