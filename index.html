@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golden Gallery</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💕</text></svg>">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  background:#0e0e12;
+  font-family:sans-serif;
+}
+
+/* Fullscreen rectangle */
+.spiral{
+  position:absolute;
+  left:0;
+  top:0;
+  width:100vw;
+  height:100vh;
+}
+
+/* 34 units width, 21 units height */
+:root{
+  --uW: calc(100vw / 34);
+  --uH: calc(100vh / 21);
+}
+
+.box{
+  position:absolute;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  font-weight:bold;
+  border-radius:0;
+  font-size:min(2vmin,12px);
+  overflow:hidden;
+}
+
+.box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  animation: fadeIn 2s ease-in-out forwards;
+  border-radius: 0;
+}
+
+/* Golden ratio boxes */
+.b1{
+  width:calc(var(--uW)*21);
+  height:calc(var(--uH)*21);
+  left:0;
+  top:0;
+  background:#0e0e12;
+}
+
+.b2{
+  width:calc(var(--uW)*13);
+  height:calc(var(--uH)*13);
+  left:calc(var(--uW)*21);
+  top:0;
+  background:#0e0e12;
+}
+
+.b3{
+  width:calc(var(--uW)*8);
+  height:calc(var(--uH)*8);
+  left:calc(var(--uW)*26);
+  top:calc(var(--uH)*13);
+  background:#0e0e12;
+}
+
+.b4{
+  width:calc(var(--uW)*5);
+  height:calc(var(--uH)*5);
+  left:calc(var(--uW)*21);
+  top:calc(var(--uH)*16);
+  background:#0e0e12;
+}
+
+.b5{
+  width:calc(var(--uW)*3);
+  height:calc(var(--uH)*3);
+  left:calc(var(--uW)*21);
+  top:calc(var(--uH)*13);
+  background:#0e0e12;
+}
+
+.b6{
+  width:calc(var(--uW)*2);
+  height:calc(var(--uH)*2);
+  left:calc(var(--uW)*24);
+  top:calc(var(--uH)*13);
+  background:#0e0e12;
+}
+
+.b7{
+  width:calc(var(--uW)*1);
+  height:calc(var(--uH)*1);
+  left:calc(var(--uW)*25);
+  top:calc(var(--uH)*15);
+  background:#0e0e12;
+}
+
+.b8{
+  width:calc(var(--uW)*1);
+  height:calc(var(--uH)*1);
+  left:calc(var(--uW)*24);
+  top:calc(var(--uH)*15);
+  background:#0e0e12;
+}
+
+.b9{
+  width:calc(var(--uW)*1);
+  height:calc(var(--uH)*1);
+  left:calc(var(--uW)*24);
+  top:calc(var(--uH)*14);
+  background:#0e0e12;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.countdown {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: white;
+  font-size: 18px;
+  background: rgba(255, 77, 109, 0.8);
+  padding: 10px 20px;
+  border-radius: 25px;
+  z-index: 1000;
+}
+</style>
+</head>
+
+<body>
+<div class="spiral">
+  <div class="box b1"><img src="https://picsum.photos/seed/valentine1/800/800.jpg" alt="Image 1" style="animation-delay: 0s;"></div>
+  <div class="box b2"><img src="https://picsum.photos/seed/valentine2/600/600.jpg" alt="Image 2" style="animation-delay: 0.5s;"></div>
+  <div class="box b3"><img src="https://picsum.photos/seed/valentine3/400/400.jpg" alt="Image 3" style="animation-delay: 1s;"></div>
+  <div class="box b4"><img src="https://picsum.photos/seed/valentine4/300/300.jpg" alt="Image 4" style="animation-delay: 1.5s;"></div>
+  <div class="box b5"><img src="https://picsum.photos/seed/valentine5/200/200.jpg" alt="Image 5" style="animation-delay: 2s;"></div>
+  <div class="box b6"><img src="https://picsum.photos/seed/valentine6/150/150.jpg" alt="Image 6" style="animation-delay: 2.5s;"></div>
+  <div class="box b7"><img src="https://picsum.photos/seed/valentine7/100/100.jpg" alt="Image 7" style="animation-delay: 3s;"></div>
+  <div class="box b8"><img src="https://picsum.photos/seed/valentine8/100/100.jpg" alt="Image 8" style="animation-delay: 3.5s;"></div>
+  <!-- <div class="box b9"><img src="https://picsum.photos/seed/valentine9/100/100.jpg" alt="Image 9" style="animation-delay: 4s;"></div> -->
+</div>
+
+<div class="countdown" id="countdown">Redirecting in 10 seconds...</div>
+
+<script>
+let countdown = 10;
+const countdownEl = document.getElementById('countdown');
+
+const timer = setInterval(() => {
+  countdown--;
+  countdownEl.textContent = `Redirecting in ${countdown} seconds...`;
+  
+  if (countdown <= 0) {
+    clearInterval(timer);
+    window.location.href = 'valentine.html';
+  }
+}, 1000);
+</script>
+</body>
+</html>

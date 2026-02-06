@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine?</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💕</text></svg>">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Georgia', serif;
+  overflow: hidden;
+  position: relative;
+}
+
+.hearts {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.heart {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.3);
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(10deg); }
+}
+
+.container {
+  text-align: center;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 60px 40px;
+  border-radius: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 500px;
+  width: 90%;
+}
+
+h1 {
+  color: #fff;
+  font-size: 3em;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.question {
+  color: #fff;
+  font-size: 1.5em;
+  margin-bottom: 40px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  line-height: 1.4;
+}
+
+.buttons {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 15px 40px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.yes-btn {
+  background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+.yes-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+}
+
+.no-btn {
+  background: linear-gradient(45deg, #6c757d, #868e96);
+  color: white;
+  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.4);
+  position: absolute;
+  transition: all 0.1s ease;
+}
+
+.no-btn:hover {
+  transform: scale(0.95);
+}
+
+.response {
+  margin-top: 30px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  color: white;
+  font-size: 1.1em;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.response.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.celebration {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ff6b6b;
+  animation: confetti-fall 3s ease-out forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="hearts" id="hearts"></div>
+
+<div class="container">
+  <h1>💕 Valentine's Day 💕</h1>
+  <p class="question">Will you be my Valentine?</p>
+  
+  <div class="buttons">
+    <button class="btn yes-btn" id="yesBtn">Yes</button>
+    <button class="btn no-btn" id="noBtn">No</button>
+  </div>
+  
+  <div class="response" id="response"></div>
+</div>
+
+<div class="celebration" id="celebration"></div>
+
+<script>
+// Create floating hearts
+const heartsContainer = document.getElementById('hearts');
+const heartSymbols = ['❤️', '💕', '💖', '💗', '💝', '💓', '💘'];
+
+for (let i = 0; i < 15; i++) {
+  const heart = document.createElement('div');
+  heart.className = 'heart';
+  heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+  heart.style.left = Math.random() * 100 + '%';
+  heart.style.top = Math.random() * 100 + '%';
+  heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+  heart.style.animationDelay = Math.random() * 6 + 's';
+  heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+  heartsContainer.appendChild(heart);
+}
+
+// Yes button functionality
+document.getElementById('yesBtn').addEventListener('click', function() {
+  const response = document.getElementById('response');
+  response.innerHTML = '🎉 Yay! I\'m so happy! 🎉<br>You\'ve made my day special! 💕';
+  response.classList.add('show');
+  
+  // Create confetti
+  const celebration = document.getElementById('celebration');
+  const colors = ['#ff6b6b', '#ff8e8e', '#ffb3b3', '#ffd700', '#ff69b4', '#dda0dd'];
+  
+  for (let i = 0; i < 50; i++) {
+    setTimeout(() => {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDelay = Math.random() * 0.5 + 's';
+      celebration.appendChild(confetti);
+      
+      setTimeout(() => confetti.remove(), 3000);
+    }, i * 50);
+  }
+  
+  // Hide buttons after response
+  document.querySelector('.buttons').style.display = 'none';
+});
+
+// No button - playful escape functionality
+const noBtn = document.getElementById('noBtn');
+let escapeAttempts = 0;
+
+// Function to get safe random position with strict boundaries
+function getSafePosition(button) {
+  const buttonWidth = button.offsetWidth || 120; // Fallback width
+  const buttonHeight = button.offsetHeight || 50; // Fallback height
+  const padding = 50; // Increased padding for safety
+  
+  // Get viewport dimensions with fallbacks
+  const viewportWidth = window.innerWidth || 1200;
+  const viewportHeight = window.innerHeight || 800;
+  
+  // Calculate maximum safe positions with strict limits
+  const maxX = Math.max(padding, viewportWidth - buttonWidth - padding);
+  const maxY = Math.max(padding, viewportHeight - buttonHeight - padding);
+  
+  // Ensure minimum viewport size
+  const minViewportWidth = buttonWidth + (padding * 2);
+  const minViewportHeight = buttonHeight + (padding * 2);
+  
+  // If viewport is too small, center the button
+  if (viewportWidth < minViewportWidth || viewportHeight < minViewportHeight) {
+    return {
+      x: Math.max(0, (viewportWidth - buttonWidth) / 2),
+      y: Math.max(0, (viewportHeight - buttonHeight) / 2)
+    };
+  }
+  
+  // Generate random position within strict bounds
+  const newX = Math.random() * (maxX - padding) + padding;
+  const newY = Math.random() * (maxY - padding) + padding;
+  
+  // Final safety check - clamp to viewport
+  const safeX = Math.max(padding, Math.min(newX, viewportWidth - buttonWidth - padding));
+  const safeY = Math.max(padding, Math.min(newY, viewportHeight - buttonHeight - padding));
+  
+  // Debug logging
+  console.log(`Viewport: ${viewportWidth}x${viewportHeight}, Button: ${buttonWidth}x${buttonHeight}`);
+  console.log(`Safe position: X(${safeX}), Y(${safeY})`);
+  
+  return { x: safeX, y: safeY };
+}
+
+// Function to validate position is within bounds
+function isPositionValid(x, y, button) {
+  const buttonWidth = button.offsetWidth || 120;
+  const buttonHeight = button.offsetHeight || 50;
+  const padding = 20;
+  
+  const viewportWidth = window.innerWidth || 1200;
+  const viewportHeight = window.innerHeight || 800;
+  
+  return x >= padding && 
+         y >= padding && 
+         x + buttonWidth <= viewportWidth - padding && 
+         y + buttonHeight <= viewportHeight - padding;
+}
+
+noBtn.addEventListener('mouseenter', function(e) {
+  escapeAttempts++;
+  
+  let pos = getSafePosition(this);
+  let attempts = 0;
+  
+  // Try multiple times to get a valid position that's far enough from current
+  while (attempts < 10) {
+    if (isPositionValid(pos.x, pos.y, this) &&
+        (Math.abs(pos.x - this.offsetLeft) >= 150 || Math.abs(pos.y - this.offsetTop) >= 150)) {
+      break;
+    }
+    pos = getSafePosition(this);
+    attempts++;
+  }
+  
+  // Final validation - if still invalid, center it
+  if (!isPositionValid(pos.x, pos.y, this)) {
+    pos.x = Math.max(50, (window.innerWidth - this.offsetWidth) / 2);
+    pos.y = Math.max(50, (window.innerHeight - this.offsetHeight) / 2);
+  }
+  
+  this.style.left = pos.x + 'px';
+  this.style.top = pos.y + 'px';
+  
+  // Change button text based on attempts
+  if (escapeAttempts === 1) {
+    this.textContent = 'Really?';
+  } else if (escapeAttempts === 3) {
+    this.textContent = 'Come on...';
+  } else if (escapeAttempts === 5) {
+    this.textContent = 'Please? 😊';
+  } else if (escapeAttempts === 8) {
+    this.textContent = 'Just say yes!';
+  } else if (escapeAttempts === 10) {
+    this.textContent = "You know you want to...";
+  } else if (escapeAttempts === 15) {
+    this.textContent = "I'm waiting... 💕";
+  }
+});
+
+noBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  
+  // Move to random position within screen bounds using the same safe function
+  let pos = getSafePosition(this);
+  let attempts = 0;
+  
+  // Try multiple times to get a valid position
+  while (attempts < 10) {
+    if (isPositionValid(pos.x, pos.y, this)) {
+      break;
+    }
+    pos = getSafePosition(this);
+    attempts++;
+  }
+  
+  // Final validation - if still invalid, center it
+  if (!isPositionValid(pos.x, pos.y, this)) {
+    pos.x = Math.max(50, (window.innerWidth - this.offsetWidth) / 2);
+    pos.y = Math.max(50, (window.innerHeight - this.offsetHeight) / 2);
+  }
+  
+  this.style.left = pos.x + 'px';
+  this.style.top = pos.y + 'px';
+  
+  // Show playful message
+  const response = document.getElementById('response');
+  response.innerHTML = 'Nice try! But you can\'t escape the love! 😄<br>Try the "Yes" button instead!';
+  response.classList.add('show');
+  
+  setTimeout(() => {
+    response.classList.remove('show');
+  }, 3000);
+});
+
+// Make no button initially positioned
+window.addEventListener('load', function() {
+  const buttonsContainer = document.querySelector('.buttons');
+  const rect = buttonsContainer.getBoundingClientRect();
+  
+  noBtn.style.position = 'fixed';
+  noBtn.style.left = (rect.left + rect.width/2 + 100) + 'px';
+  noBtn.style.top = rect.top + 'px';
+});
+</script>
+
+</body>
+</html>

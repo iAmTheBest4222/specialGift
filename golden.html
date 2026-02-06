@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fullscreen Fibonacci Spiral</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  background:#0e0e12;
+  font-family:sans-serif;
+}
+
+/* Fullscreen rectangle */
+.spiral{
+  position:absolute;
+  left:0;
+  top:0;
+  width:100vw;
+  height:100vh;
+}
+
+/* 34 units width, 21 units height (same as before) */
+:root{
+  --uW: calc(100vw / 34);
+  --uH: calc(100vh / 21);
+}
+
+.box{
+  position:absolute;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  font-weight:bold;
+  border-radius:min(3vmin,16px);
+  font-size:min(2vmin,12px);
+}
+
+/* Existing 7 squares (unchanged) */
+
+/* 21 */
+.b1{
+  width:calc(var(--uW)*21);
+  height:calc(var(--uH)*21);
+  left:0;
+  top:0;
+  background:#ff4d6d;
+}
+
+/* 13 */
+.b2{
+  width:calc(var(--uW)*13);
+  height:calc(var(--uH)*13);
+  left:calc(var(--uW)*21);
+  top:0;
+  background:#ff758f;
+}
+
+/* 8 */
+.b3{
+  width:calc(var(--uW)*8);
+  height:calc(var(--uH)*8);
+  left:calc(var(--uW)*26);          /* 21 + (13-8) */
+  top:calc(var(--uH)*13);
+  background:#ff8fa3;
+}
+
+/* 5 */
+.b4{
+  width:calc(var(--uW)*5);
+  height:calc(var(--uH)*5);
+  left:calc(var(--uW)*21);
+  top:calc(var(--uH)*16);           /* 21-5 */
+  background:#ffb3c1;
+}
+
+/* 3 */
+.b5{
+  width:calc(var(--uW)*3);
+  height:calc(var(--uH)*3);
+  left:calc(var(--uW)*21);
+  top:calc(var(--uH)*13);
+  background:#ffc2d1;
+}
+
+/* 2 */
+.b6{
+  width:calc(var(--uW)*2);
+  height:calc(var(--uH)*2);
+  left:calc(var(--uW)*24);          /* 21 + 3 - 2 */
+  top:calc(var(--uH)*13);
+  background:#ffe0e9;
+}
+
+/* 1 */
+.b7{
+  width:calc(var(--uW)*1);
+  height:calc(var(--uH)*1);
+  left:calc(var(--uW)*25);          /* center under 6 */
+  top:calc(var(--uH)*15);           /* 13 + 2 - 1 */
+  background:#fff0f5;
+}
+
+/* ---- EXTRA INNER BOXES (manual continuation) ---- */
+/* Next “turn” left: 1x1 square to the LEFT of b7 */
+.b8{
+  width:calc(var(--uW)*1);
+  height:calc(var(--uH)*1);
+  left:calc(var(--uW)*24);          /* directly left of b7 */
+  top:calc(var(--uH)*15);
+  background:#ffffff66;
+}
+
+/* Next “turn” up: 1x1 square ABOVE b8 */
+.b9{
+  width:calc(var(--uW)*1);
+  height:calc(var(--uH)*1);
+  left:calc(var(--uW)*24);
+  top:calc(var(--uH)*14);           /* one unit above */
+  background:#ffffffaa;
+}
+</style>
+</head>
+
+<body>
+<div class="spiral">
+  <div class="box b1">21</div>
+  <div class="box b2">13</div>
+  <div class="box b3">8</div>
+  <div class="box b4">5</div>
+  <div class="box b5">3</div>
+  <div class="box b6">2</div>
+  <div class="box b7">1</div>
+  <div class="box b8">1</div>
+  
+</div>
+</body>
+</html>
