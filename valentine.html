@@ -376,15 +376,6 @@ noBtn.addEventListener('click', function(e) {
   
   this.style.left = pos.x + 'px';
   this.style.top = pos.y + 'px';
-  
-  // Show playful message
-  const response = document.getElementById('response');
-  response.innerHTML = 'Nice try! But you can\'t escape the love! 😄<br>Try the "Yes" button instead!';
-  response.classList.add('show');
-  
-  setTimeout(() => {
-    response.classList.remove('show');
-  }, 3000);
 });
 
 // Make no button initially positioned
